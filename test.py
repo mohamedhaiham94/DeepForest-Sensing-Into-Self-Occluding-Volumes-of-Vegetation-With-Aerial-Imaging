@@ -2,7 +2,7 @@ import torch
 from tqdm import tqdm
 import os
 from CNN3D.cnn_model import Simple3DCNN
-from slice_contribution_copy import slice_contribution
+from slice_contribution import slice_contribution
 import numpy as np
 from PIL import Image
 import glob

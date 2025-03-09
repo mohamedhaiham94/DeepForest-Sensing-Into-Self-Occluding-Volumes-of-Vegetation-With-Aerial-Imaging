@@ -1,4 +1,4 @@
-from slice_contribution_copy import slice_contribution
+from slice_contribution import slice_contribution
 import os
 import numpy as np
 from tqdm import tqdm
