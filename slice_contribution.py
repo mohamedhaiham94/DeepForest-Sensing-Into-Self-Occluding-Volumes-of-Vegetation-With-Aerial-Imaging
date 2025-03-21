@@ -179,4 +179,3 @@ def slice_contribution(x_point, y_point, z_point, planes_number, image_type, rem
     return top
 
 
-

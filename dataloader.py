@@ -12,7 +12,6 @@ class FocalStackDataset(Dataset):
         self.path = path
 
     def load_pickle(self, idx):
-
         with open(os.path.join(self.path, idx), 'rb') as file:
             data = pickle.load(file)
         return data
@@ -25,7 +24,6 @@ class FocalStackDataset(Dataset):
 
     def __getitem__(self, idx):
         item_data = self.load_pickle(self.paths[idx])
-
         if 'zero' in self.paths[idx]:
             target = torch.zeros_like(torch.from_numpy(item_data['input'])).float()
         else:

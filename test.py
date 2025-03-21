@@ -1,10 +1,8 @@
 import torch
 from tqdm import tqdm
 import os
-from UNET3D.unet3d_16 import UNet3D
 from CNN3D.cnn_model import Simple3DCNN
-# from slice_contribution import slice_contribution
-from slice_contribution_copy import slice_contribution
+from slice_contribution import slice_contribution
 import numpy as np
 from PIL import Image
 import glob
@@ -19,12 +17,11 @@ def test_parallel(x, y, model, ground_truth_img, random_matrix, device, model_ax
     z = layer
     extra_zeros = np.zeros((2, 2))
 
-    if int(abs(z - 440) // 20) > 0:
-        slices = slice_contribution(x, y, z, 440, 'slices', 0, False, int(abs(z - 440) // 20))
-    else:
-        slices = slice_contribution(x, y, z, 440, 'slices', 0, False, 1)
 
-    v = [split_image_into_equal_tiles(value, 2) for value in slices]
+    mona = slice_contribution(x, y, z, 440, 'slices', 0, False, int(abs(z - 440) // 20))
+    #mona = slice_contribution(x, y, z, 440, 'slices', 0, False, 1)
+    # mona = slice_contribution(x, y, z, 440, 'slices', 0, 5)
+    v = [split_image_into_equal_tiles(value, 2) for value in mona]
 
     if (abs(z - 440)) < 20 :
         for i in range(20 - (abs(z - 440))):
@@ -56,16 +53,12 @@ def main(layer, model_axil):
     layer = int(layer)
     ground_truth_img = Image.open(os.path.join(sorted(glob.glob(ground_truth + '/*.png'), key=numericalSort)[layer - 1])).convert('L')
     print(os.path.join(sorted(glob.glob(ground_truth + '/*.png'), key=numericalSort)[layer - 1]), layer)
-    sdds
     empty_image = Image.new('L', (440, 440), color=(0))
     random_matrix = np.zeros_like(empty_image)
 
     model_save_path = f'checkpoint/Layer_'+str(layer)+'.pth'
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-
-
     non_zero_pixels = []
     width, height = ground_truth_img.size
 
@@ -92,7 +85,6 @@ def main(layer, model_axil):
     # Save the resulting image
     image = Image.fromarray(random_matrix, mode='L')
     image.save("outputs\Layer_"+str(layer)+"_new.png")
-    # image.save(r"f:\Haitham\De-Blurring\2-paper\discussion\results\Layer_330_270_T_"+str(layer)+".png")
     image.close()
 
 def load_image_stack(directory, image_type, layer_number, axil = 1):
@@ -116,7 +108,10 @@ if __name__ == '__main__':
     with open('layers_data.txt', "r") as file:
         lines = file.readlines()
 
+    image_stack_dir = 'test_dataset\cropped_integral_NIR'
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    for layer in range(222, 223):
-        print(int(lines[layer - 1].split()[-1]), layer)        
+    for layer in range(1, 441):
+        print(int(lines[layer - 1].split()[-1]), layer)
+                
         main(layer, int(lines[layer - 1].split()[-1]))
