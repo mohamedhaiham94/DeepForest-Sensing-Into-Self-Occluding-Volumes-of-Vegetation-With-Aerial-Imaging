@@ -9,7 +9,6 @@ import glob
 from tools.utils import *
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor,  as_completed
 import pickle
-from pkl_handler import PKLFileHandler
 import multiprocessing
 
 def test_parallel(x, y, model, ground_truth_img, random_matrix, device, model_axil, layer):
@@ -18,10 +17,10 @@ def test_parallel(x, y, model, ground_truth_img, random_matrix, device, model_ax
     extra_zeros = np.zeros((2, 2))
 
 
-    mona = slice_contribution(x, y, z, 440, 'slices', 0, False, int(abs(z - 440) // 20))
-    #mona = slice_contribution(x, y, z, 440, 'slices', 0, False, 1)
-    # mona = slice_contribution(x, y, z, 440, 'slices', 0, 5)
-    v = [split_image_into_equal_tiles(value, 2) for value in mona]
+    slices = slice_contribution(x, y, z, 440, 'slices', 0, False, int(abs(z - 440) // 20))
+    #slices = slice_contribution(x, y, z, 440, 'slices', 0, False, 1)
+    #slices = slice_contribution(x, y, z, 440, 'slices', 0, 5)
+    v = [split_image_into_equal_tiles(value, 2) for value in slices]
 
     if (abs(z - 440)) < 20 :
         for i in range(20 - (abs(z - 440))):
