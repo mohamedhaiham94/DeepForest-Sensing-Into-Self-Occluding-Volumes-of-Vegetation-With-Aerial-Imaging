@@ -34,7 +34,7 @@ To install all required packages you need to run the following command
 ```
 
 ## Testing
-To test our approach you have to download the checkpoints from the following link [a link](https://drive.google.com/file/d/1EzkNiE4O8C0CiEvDKRc8aXZqSPuWEPWj/view?usp=drive_link), then run the following code.
+To test our approach you have to download the checkpoints from the following [link](https://drive.google.com/file/d/1EzkNiE4O8C0CiEvDKRc8aXZqSPuWEPWj/view?usp=drive_link), then run the following code.
 
 ```
 >> python test.py
