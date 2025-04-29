@@ -40,5 +40,9 @@ To test our approach you have to download the checkpoints from the following [li
 >> python test.py
 ```
 
+To evaluate the model on new datasets, apply the identical preprocessing pipeline described in our paper. To generate the receptive fields (model inputs) run this script
+```
+>> python utils.py
+```
 
 
