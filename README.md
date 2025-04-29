@@ -1,0 +1,22 @@
+# DeepForest: Sensing Into Self-Occluding Volumes of Vegetation With Aerial Imaging
+
+This repository contains the official authors implementation associated with the paper "DeepForest: Sensing Into Self-Occluding Volumes of Vegetation With Aerial Imaging", which can be found #Link.
+
+
+
+Access to below-canopy volumetric vegetation data is crucial for understanding ecosystem dynamics. We address the long-standing limitation of remote sensing to penetrate deep into dense canopy layers. LiDAR and radar are currently considered the primary options for measuring 3D vegetation structures, while cameras can only extract the reflectance and depth of top layers. Using conventional, high-resolution aerial images, our approach allows sensing deep into self-occluding vegetation volumes, such as forests. It is similar in spirit to the imaging process of wide-field microscopy, but can handle much larger scales and strong occlusion. We scan focal stacks by synthetic-aperture imaging with drones and reduce out-of-focus signal contributions using pre-trained 3D convolutional neural networks. The resulting volumetric reflectance stacks contain low-frequency representations of the vegetation volume. Combining multiple reflectance stacks from various spectral channels provides insights into plant health, growth, and environmental conditions throughout the entire vegetation volume.
+
+
+## Funding and Acknowledgments
+- Linz Institute of Technology grant LIT-2022-11-SEE-112 (OB)
+- Austrian Science Fund (FWF), German Research Foundation (DFG) grant I 6046-N (OB)
+
+
+## Cloning the Repository
+
+
+## Setup
+
+## Running
+
+
