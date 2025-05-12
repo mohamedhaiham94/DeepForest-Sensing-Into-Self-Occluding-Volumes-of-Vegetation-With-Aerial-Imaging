@@ -13,18 +13,21 @@ import multiprocessing
 
 def test_parallel(x, y, model, ground_truth_img, random_matrix, device, model_axil, layer):
 
-    z = layer
-    extra_zeros = np.zeros((2, 2))
+    #extra_zeros = np.zeros((2, 2))
 
-
-    slices = slice_contribution(x, y, z, 440, 'slices', 0, False, int(abs(z - 440) // 20))
-    #slices = slice_contribution(x, y, z, 440, 'slices', 0, False, 1)
+    if layer <= 420:
+        z = layer
+        slices = slice_contribution(x, y, z, 440, 'slices', 0, False, int(abs(z - 440) // 20))
+    else:
+        z = layer
+        slices = slice_contribution(x, y, z, 440, 'slices', 0, False, 1)
     #slices = slice_contribution(x, y, z, 440, 'slices', 0, 5)
     v = [split_image_into_equal_tiles(value, 2) for value in slices]
 
+    extra_layers = v[-1]
     if (abs(z - 440)) < 20 :
         for i in range(20 - (abs(z - 440))):
-            v.append(extra_zeros)
+            v.append(extra_layers)
 
     input_data = np.array(v)
 
@@ -48,12 +51,15 @@ def process_pixel(pixel_info, model_save_path, ground_truth_img, random_matrix, 
     return test_parallel(x, y, model, ground_truth_img, random_matrix, device, model_axil, layer)
 
 def main(layer, model_axil):
-    ground_truth = r'data/test/Scene_507/ZS_cropped'
+    ground_truth = r'data/Scene_1680/ZS_cropped'
     layer = int(layer)
     ground_truth_img = Image.open(os.path.join(sorted(glob.glob(ground_truth + '/*.png'), key=numericalSort)[layer - 1])).convert('L')
     print(os.path.join(sorted(glob.glob(ground_truth + '/*.png'), key=numericalSort)[layer - 1]), layer)
+    
     empty_image = Image.new('L', (440, 440), color=(0))
     random_matrix = np.zeros_like(empty_image)
+
+    layer = 160 if layer > 420 else layer
 
     model_save_path = f'checkpoint/Layer_'+str(layer)+'.pth'
     
@@ -71,7 +77,7 @@ def main(layer, model_axil):
 
     # Parallel processing of non-zero pixels using ProcessPoolExecutor
     results = []
-    with ProcessPoolExecutor() as executor:
+    with ProcessPoolExecutor(max_workers=2) as executor:
         futures = [executor.submit(process_pixel, i, model_save_path, ground_truth_img, random_matrix, device, model_axil, layer) for i in non_zero_pixels]
         
         for future in tqdm(as_completed(futures), total=len(futures), desc="Processing", unit="item"):
@@ -83,7 +89,7 @@ def main(layer, model_axil):
 
     # Save the resulting image
     image = Image.fromarray(random_matrix, mode='L')
-    image.save("outputs\Layer_"+str(layer)+"_new.png")
+    image.save("outputs\discussion extend\Layer_"+str(layer)+"_new.png")
     image.close()
 
 def load_image_stack(directory, image_type, layer_number, axil = 1):
@@ -107,10 +113,10 @@ if __name__ == '__main__':
     with open('layers_data.txt', "r") as file:
         lines = file.readlines()
 
-    image_stack_dir = 'test_dataset\cropped_integral_NIR'
+    image_stack_dir = 'data\Scene_1680\FP_cropped'
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    for layer in range(1, 441):
+    for layer in range(440, 441):
         print(int(lines[layer - 1].split()[-1]), layer)
                 
         main(layer, int(lines[layer - 1].split()[-1]))
