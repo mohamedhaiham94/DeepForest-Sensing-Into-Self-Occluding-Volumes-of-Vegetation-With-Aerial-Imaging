@@ -86,8 +86,8 @@ class CustomLoss(nn.Module):
         self.alpha = alpha  # Weighting factor for decreasing errors
 
     def forward(self, model_output, target_value):
-        xx = self.custom_loss(model_output.squeeze(1) , target_value[:, 0, 0, 0])
-        return xx
+        loss = self.custom_loss(model_output.squeeze(1) , target_value[:, 0, 0, 0])
+        return loss
 
     def custom_loss(self, output, target):
         mse_loss = nn.MSELoss()(output, target)
