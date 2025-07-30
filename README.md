@@ -12,6 +12,30 @@ Access to below-canopy volumetric vegetation data is crucial for understanding e
 - Linz Institute of Technology grant LIT-2022-11-SEE-112 (OB)
 - Austrian Science Fund (FWF), German Research Foundation (DFG) grant I 6046-N (OB)
 
+## How to Use
+
+1. **Acquire Data**  
+   Capture the raw data from the camera system.
+
+2. **Preprocess the Data**  
+   Run the preprocessing pipeline on all channels to clean and standardize the input data.
+
+3. **Generate Integral Images**  
+   Use the [AOS repository](#) to generate integral images needed for further processing.  
+   *(Replace `#` with the actual link to the AOS repository.)*
+
+4. **Prepare Training Data**  
+   Use `utils.py` to generate the Point Spread Function (PSF) data required for training.
+
+5. **Train the Model**  
+   Run `train.py` to start training the model using the generated PSF data.
+
+6. **Perform Inference**  
+   Use `test.py` to evaluate the trained model on new or test data.
+
+7. **Sensor Mapping**  
+   Run `match_sensor.py` to align the corrected reflectance stack with the center perspective sensor image, as described in the paper.
+
 
 ## Cloning the Repository
 ```
