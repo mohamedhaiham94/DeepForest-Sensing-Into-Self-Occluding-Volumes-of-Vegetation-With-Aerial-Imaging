@@ -23,7 +23,6 @@ Access to below-canopy volumetric vegetation data is crucial for understanding e
 3. **Generate Integral Images**  
    Use the [AOS repository](https://github.com/JKU-ICG/AOS/) to generate integral images needed for further processing.  
    
-
 4. **Prepare Training Data**  
    Use `utils.py` to generate the Point Spread Function (PSF) data required for training.
 
