@@ -84,7 +84,7 @@ combined_image_data = np.concatenate(img_list, axis=0)
 ####################################
 # Normalization for the color bar 
 i = np.where(combined_image_data == combined_image_data.max())
-combined_image_data[i[0][0], i[0][1]] = 150
+combined_image_data[i[0][0], i[0][1]] = 255
 ####################################
 
 vtk_data = numpy_support.numpy_to_vtk(combined_image_data.reshape(-1, 3), deep=True)
