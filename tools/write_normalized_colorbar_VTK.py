@@ -82,9 +82,12 @@ combined_image_data = np.concatenate(img_list, axis=0)
 
 # I think similarily you can concatenate multiple data two channel images
 ####################################
-# Normalization for the color bar 
+# Normalization for the color bar stretching the color bar to be between 0 - 255
 i = np.where(combined_image_data == combined_image_data.max())
 combined_image_data[i[0][0], i[0][1]] = 255
+
+i = np.where(combined_image_data == combined_image_data.min())
+combined_image_data[i[0][338], i[0][339]] = 0
 ####################################
 
 vtk_data = numpy_support.numpy_to_vtk(combined_image_data.reshape(-1, 3), deep=True)
